@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmj8xcjncq6ag"]
+[gd_scene load_steps=9 format=3 uid="uid://dmj8xcjncq6ag"]
 
 [ext_resource type="Script" path="res://src/grid_node.gd" id="1_bo888"]
 [ext_resource type="Texture2D" uid="uid://c38x00pmikske" path="res://assets/grid.png" id="1_cqasf"]
+[ext_resource type="Texture2D" uid="uid://dhxc42s50hw5v" path="res://assets/target.png" id="2_cwdul"]
 [ext_resource type="Texture2D" uid="uid://b0wxva66omje2" path="res://assets/laser.png" id="3_7ecdn"]
 [ext_resource type="Script" path="res://src/laser.gd" id="4_yqmew"]
 
@@ -24,6 +25,16 @@ position = Vector2(4.76837e-07, 4.76837e-07)
 scale = Vector2(0.5, 0.5)
 texture = SubResource("GradientTexture2D_wkavt")
 metadata/_edit_lock_ = true
+
+[node name="Target" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_cwdul")
+metadata/_edit_lock_ = true
+
+[node name="TargetTimer" type="Timer" parent="Target"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.12549, 0.211765, 0.443137, 1)
@@ -89,4 +100,5 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_unpym")
 
+[connection signal="timeout" from="Target/TargetTimer" to="." method="_on_target_timer_timeout"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

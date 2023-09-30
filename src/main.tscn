@@ -166,9 +166,6 @@ rotation = 1.5708
 unique_name_in_owner = true
 position = Vector2(16, 48)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_ti022")
-
 [node name="Health" type="Node2D" parent="."]
 position = Vector2(10.3333, 172.333)
 scale = Vector2(0.5, 0.5)
@@ -194,3 +191,12 @@ position = Vector2(-0.666656, 36.6667)
 
 [node name="DeflectorSprite3" parent="Deflectors" instance=ExtResource("10_bw08q")]
 position = Vector2(0, 72)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ti022")
+
+[node name="WaveTimer" type="Timer" parent="."]
+wait_time = 15.0
+autostart = true
+
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]

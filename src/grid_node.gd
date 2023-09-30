@@ -3,6 +3,9 @@ class_name GridNode
 
 enum {LEFT, UP, RIGHT, DOWN}
 
+signal detonated(node : GridNode)
+signal target_neutralized(node : GridNode)
+
 @export var reflect_down = true
 @export var reflect_right = true
 @export var neighbor_left : GridNode
@@ -13,28 +16,65 @@ enum {LEFT, UP, RIGHT, DOWN}
 @onready var lasers = [$LaserLeft, $LaserUp, $LaserRight, $LaserDown]
 @onready var neighbors = [neighbor_left, neighbor_up, neighbor_right, neighbor_down]
 
+var hit_this_frame = false
+var targeted = false
+var blocked = false
 var reflecting = false
 
 @onready var Background = $Background
+@onready var Target = $Target
 
+var tween = null
+
+const BLINK_COUNT = 6
 
 func _ready():
 	$Sprite2D.modulate = Palletes.GRID_COLOR
+	Target.modulate = Palletes.GRID_TARGET_COLOR
 
-
-func setup_neigbors():
+func setup_neighbors():
 	neighbors = [neighbor_left, neighbor_up, neighbor_right, neighbor_down]
 
 
-func set_blocked(blocked):
-	Background.visible = blocked
+func _process(_delta):
+	hit_this_frame = false
+
+
+func set_blocked(_blocked):
+	Background.visible = _blocked
 	Background.modulate = Palletes.GRID_BLOCKED_COLOR
 
 
+func set_targeted(_targeted):
+	set_reflecting(false)
+	targeted = _targeted
+	Target.visible = targeted
+	Background.visible = targeted
+	Background.modulate = Palletes.GRID_TARGET_BG_COLOR
+	
+	if targeted:
+		tween = create_tween()
+		for i in range(1, BLINK_COUNT+1):
+			tween.tween_callback(_set_target_visible.bind(false)).set_delay(Main.TIME_TO_DETONATE/pow(2, i))
+			tween.tween_callback(_set_target_visible.bind(true)).set_delay(0.15)
+		tween.tween_callback(_detonate)
+
+func _set_target_visible(t):
+	Target.visible = t
+
+func _detonate():
+	set_targeted(false)
+	detonated.emit(self)
+
+
 func set_reflecting(_reflecting):
+	if targeted:
+		return
+	
 	if !_reflecting:
-		EnergyManager.return_reflector()
-	elif !EnergyManager.spend_reflector():
+		if reflecting:
+			EnergyManager.return_reflector()
+	elif !reflecting and !EnergyManager.spend_reflector():
 		return
 	
 	reflecting = _reflecting
@@ -66,6 +106,18 @@ func activate_from_directions(original_dir, reflected_bool, reflected_dir_true,
 			send_laser(reflected_dir_false)
 	else:
 		send_laser(non_reflected_dir)
+	
+	if !targeted:
+		return
+	if !hit_this_frame:
+		hit_this_frame = true
+	else:
+		neutralize()
+
+func neutralize():
+	if tween:
+		tween.kill()
+	target_neutralized.emit(self)
 
 
 func send_laser(direction):
@@ -91,3 +143,7 @@ func _on_area_2d_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		set_reflecting(!reflecting)
 
+
+
+func _on_target_timer_timeout():
+	pass # Replace with function body.
