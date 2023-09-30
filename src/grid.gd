@@ -4,8 +4,8 @@ class_name GridControl
 signal wave_advanced(wave)
 signal explain(text)
 
-enum WAVE_TYPES {SINGLE, DOUBLE, TRIPLE, BLOCKER, DOUBLEBLOCKER, 
-	DOUBLETARGET_BLOCKER, FORTIFIED}
+enum WAVE_TYPES {SINGLE, DOUBLE, TRIPLE, BLOCKER, DOUBLEBLOCKER, QUICKBLOCKER,
+	DOUBLETARGET_BLOCKER, FORTIFIED, TUTORIAL_0, TUTORIAL_1, TUTORIAL_2, TUTORIAL_3}
 
 var wave_count = 0
 var targets_alive = 0
@@ -64,17 +64,33 @@ func start_wave():
 
 
 func choose_wave():
+	if wave_count < 2:
+		if wave_count == 1:
+			explain.emit("Align both lasers to deactivate cells")
+		return start_specific_wave(WAVE_TYPES.TUTORIAL_0)
+	
 	if wave_count < 5:
+		if wave_count == 2:
+			explain.emit("WASD to move the cannons")
 		return start_specific_wave(WAVE_TYPES.SINGLE)
 	
 	if wave_count < 10:
 		if wave_count == 5:
 			explain.emit("Blue cells deflect lasers")
+			return start_specific_wave(WAVE_TYPES.TUTORIAL_1)
+		elif wave_count == 6:
+			return start_specific_wave(WAVE_TYPES.TUTORIAL_2)
+		elif wave_count == 7:
+			return start_specific_wave(WAVE_TYPES.TUTORIAL_3)
+		explain.emit("Click on cells to toggle deflect")
 		return start_specific_wave(WAVE_TYPES.BLOCKER)
+	
+	if wave_count == 31:
+		return start_specific_wave(WAVE_TYPES.FORTIFIED)
 	
 	if wave_count >= 30 and wave_count % 10 == 0:
 		if wave_count == 30:
-			explain.emit("Destroy them with one burst")
+			explain.emit("Destroy them with one burst!")
 		return start_specific_wave(WAVE_TYPES.FORTIFIED)
 	
 	if wave_count >= 10 and (wave_count+3) % 5 == 0:
@@ -83,13 +99,18 @@ func choose_wave():
 	if wave_count >= 10 and wave_count % 5 == 0:
 		return start_specific_wave(WAVE_TYPES.DOUBLEBLOCKER)
 	
-	if wave_count % 2:
+	if wave_count % 2 == 0:
+		if wave_count == 14:
+			explain.emit("Destroy them quickly!")
 		if wave_count <= 20:
 			return start_specific_wave(WAVE_TYPES.DOUBLE) 
 		else:
 			return start_specific_wave(WAVE_TYPES.TRIPLE) 
 	
-	return start_specific_wave(WAVE_TYPES.BLOCKER)
+	if wave_count <= 30:
+		return start_specific_wave(WAVE_TYPES.BLOCKER) 
+	else:
+		return start_specific_wave(WAVE_TYPES.QUICKBLOCKER) 
 	
 
 func start_specific_wave(wave_type):
@@ -107,6 +128,9 @@ func start_specific_wave(wave_type):
 		WAVE_TYPES.BLOCKER:
 			var target = spawn_random_target()
 			spawn_hard_blocker(target)
+		WAVE_TYPES.QUICKBLOCKER:
+			var target = spawn_random_target(true)
+			spawn_hard_blocker(target)
 		WAVE_TYPES.DOUBLEBLOCKER:
 			var target = spawn_centered_target()
 			spawn_hard_blocker(target)
@@ -119,6 +143,22 @@ func start_specific_wave(wave_type):
 			fortified = true
 			spawn_centered_target(false, true)
 			spawn_random_target(false, true)
+		WAVE_TYPES.TUTORIAL_0:
+			spawn_target(0, 0)
+		WAVE_TYPES.TUTORIAL_1:
+			spawn_target(0, 1)
+			get_square(0, 0).set_blocked(true)
+			get_square(2, 1).set_reflecting(true)
+		WAVE_TYPES.TUTORIAL_2:
+			spawn_target(3, 0)
+			get_square(1, 0).set_blocked(true)
+			get_square(3, 1).set_reflecting(true)
+		WAVE_TYPES.TUTORIAL_3:
+			spawn_target(1, 3)
+			get_square(0, 3).set_blocked(true)
+			get_square(1, 0).set_reflecting(true)
+			get_square(3, 3).set_reflecting(true)
+			
 
 
 func spawn_target(x, y, quick = false, fortified = false):
