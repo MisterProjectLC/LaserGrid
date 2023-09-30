@@ -1,10 +1,13 @@
 extends Node2D
 class_name GridControl
 
+signal success()
+signal failure()
 signal wave_advanced(wave)
 signal explain(text)
 
 enum WAVE_TYPES {SINGLE, DOUBLE, TRIPLE, BLOCKER, DOUBLEBLOCKER, QUICKBLOCKER,
+	QUICKDOUBLEBLOCKER, QUICKDOUBLETARGET_BLOCKER,
 	DOUBLETARGET_BLOCKER, FORTIFIED, TUTORIAL_0, TUTORIAL_1, TUTORIAL_2, TUTORIAL_3}
 
 var wave_count = 0
@@ -94,10 +97,16 @@ func choose_wave():
 		return start_specific_wave(WAVE_TYPES.FORTIFIED)
 	
 	if wave_count >= 10 and (wave_count+3) % 5 == 0:
-		return start_specific_wave(WAVE_TYPES.DOUBLETARGET_BLOCKER)
+		if wave_count <= 30:
+			return start_specific_wave(WAVE_TYPES.DOUBLETARGET_BLOCKER) 
+		else:
+			return start_specific_wave(WAVE_TYPES.QUICKDOUBLETARGET_BLOCKER) 
 	
 	if wave_count >= 10 and wave_count % 5 == 0:
-		return start_specific_wave(WAVE_TYPES.DOUBLEBLOCKER)
+		if wave_count <= 30:
+			return start_specific_wave(WAVE_TYPES.DOUBLEBLOCKER) 
+		else:
+			return start_specific_wave(WAVE_TYPES.QUICKDOUBLEBLOCKER) 
 	
 	if wave_count % 2 == 0:
 		if wave_count == 14:
@@ -135,9 +144,17 @@ func start_specific_wave(wave_type):
 			var target = spawn_centered_target()
 			spawn_hard_blocker(target)
 			spawn_blocker()
+		WAVE_TYPES.QUICKDOUBLEBLOCKER:
+			var target = spawn_centered_target(true)
+			spawn_hard_blocker(target)
+			spawn_blocker()
 		WAVE_TYPES.DOUBLETARGET_BLOCKER:
 			var target = spawn_random_target()
 			spawn_random_target()
+			spawn_hard_blocker(target)
+		WAVE_TYPES.QUICKDOUBLETARGET_BLOCKER:
+			var target = spawn_random_target(true)
+			spawn_random_target(true)
 			spawn_hard_blocker(target)
 		WAVE_TYPES.FORTIFIED:
 			fortified = true
@@ -227,11 +244,13 @@ func on_target_neutralized(node : GridNode):
 		node.set_targeted(false)
 	if targets_alive <= 0:
 		start_wave()
+		success.emit()
 
 
 func on_target_detonated(node : GridNode):
 	EnergyManager.take_damage()
 	start_wave()
+	failure.emit()
 
 
 # HELPERS ------------------
