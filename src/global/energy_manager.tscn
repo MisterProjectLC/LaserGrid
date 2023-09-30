@@ -4,3 +4,4 @@
 
 [node name="EnergyManager" type="Node"]
 script = ExtResource("1_xs3bb")
+MAX_REFLECTORS = 3

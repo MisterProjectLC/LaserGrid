@@ -194,6 +194,3 @@ position = Vector2(-0.666656, 36.6667)
 
 [node name="DeflectorSprite3" parent="Deflectors" instance=ExtResource("10_bw08q")]
 position = Vector2(0, 72)
-
-[node name="DeflectorSprite4" parent="Deflectors" instance=ExtResource("10_bw08q")]
-position = Vector2(-0.666656, 108.667)

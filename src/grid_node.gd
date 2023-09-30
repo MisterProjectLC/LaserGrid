@@ -32,6 +32,11 @@ func set_blocked(blocked):
 
 
 func set_reflecting(_reflecting):
+	if !_reflecting:
+		EnergyManager.return_reflector()
+	elif !EnergyManager.spend_reflector():
+		return
+	
 	reflecting = _reflecting
 	Background.visible = _reflecting
 	if reflecting:
