@@ -1,0 +1,166 @@
+[gd_scene load_steps=10 format=3 uid="uid://cy0ul30qsva7c"]
+
+[ext_resource type="PackedScene" uid="uid://dmj8xcjncq6ag" path="res://src/grid_node.tscn" id="1_2xlrb"]
+[ext_resource type="Script" path="res://src/main.gd" id="1_3fl0m"]
+[ext_resource type="Script" path="res://src/grid.gd" id="1_bo888"]
+[ext_resource type="PackedScene" uid="uid://suytwhf2ncwx" path="res://src/laser_grid_node.tscn" id="2_nurni"]
+[ext_resource type="Script" path="res://src/cannon_control.gd" id="2_vryu0"]
+[ext_resource type="PackedScene" uid="uid://cyakrrsw1v13s" path="res://src/cannon.tscn" id="3_0eoee"]
+
+[sub_resource type="Gradient" id="Gradient_4orih"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ls6cn"]
+gradient = SubResource("Gradient_4orih")
+
+[sub_resource type="Environment" id="Environment_ti022"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.17
+glow_levels/5 = 0.0
+glow_levels/6 = 2.25
+glow_normalized = true
+glow_intensity = 2.68
+glow_strength = 0.44
+glow_bloom = 0.09
+glow_blend_mode = 0
+glow_hdr_scale = 1.42
+glow_hdr_luminance_cap = 0.05
+glow_map_strength = 0.89
+adjustment_enabled = true
+
+[node name="Main" type="Node2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_3fl0m")
+
+[node name="Background" type="Sprite2D" parent="."]
+modulate = Color(0.109804, 0.14902, 0.219608, 1)
+position = Vector2(109, 102)
+scale = Vector2(3.40625, 3.15625)
+texture = SubResource("GradientTexture2D_ls6cn")
+metadata/_edit_lock_ = true
+
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("1_bo888")
+
+[node name="Row" type="Node2D" parent="Grid"]
+
+[node name="GridNode" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
+position = Vector2(48, 48)
+
+[node name="GridNode2" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
+position = Vector2(80, 48)
+
+[node name="GridNode5" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
+position = Vector2(112, 48)
+reflect_right = false
+
+[node name="GridNode6" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
+position = Vector2(144, 48)
+reflect_right = false
+
+[node name="Row2" type="Node2D" parent="Grid"]
+position = Vector2(0, 32)
+
+[node name="GridNode" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
+position = Vector2(48, 48)
+
+[node name="GridNode2" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
+position = Vector2(80, 48)
+
+[node name="GridNode5" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
+position = Vector2(112, 48)
+reflect_right = false
+
+[node name="GridNode6" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
+position = Vector2(144, 48)
+reflect_right = false
+
+[node name="Row3" type="Node2D" parent="Grid"]
+position = Vector2(0, 64)
+
+[node name="GridNode" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
+position = Vector2(48, 48)
+reflect_down = false
+
+[node name="GridNode2" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
+position = Vector2(80, 48)
+reflect_down = false
+
+[node name="GridNode5" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
+position = Vector2(112, 48)
+reflect_down = false
+reflect_right = false
+
+[node name="GridNode6" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
+position = Vector2(144, 48)
+reflect_down = false
+reflect_right = false
+
+[node name="Row4" type="Node2D" parent="Grid"]
+position = Vector2(0, 96)
+
+[node name="GridNode" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
+position = Vector2(48, 48)
+reflect_down = false
+
+[node name="GridNode2" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
+position = Vector2(80, 48)
+reflect_down = false
+
+[node name="GridNode5" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
+position = Vector2(112, 48)
+reflect_down = false
+reflect_right = false
+
+[node name="GridNode6" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
+position = Vector2(144, 48)
+reflect_down = false
+reflect_right = false
+
+[node name="LaserGrid" type="Node2D" parent="."]
+script = ExtResource("2_vryu0")
+
+[node name="Vertical" type="Node2D" parent="LaserGrid"]
+
+[node name="GridNode18" parent="LaserGrid/Vertical" instance=ExtResource("2_nurni")]
+position = Vector2(16, 48)
+
+[node name="GridNode19" parent="LaserGrid/Vertical" instance=ExtResource("2_nurni")]
+position = Vector2(16, 80)
+
+[node name="GridNode20" parent="LaserGrid/Vertical" instance=ExtResource("2_nurni")]
+position = Vector2(16, 112)
+
+[node name="GridNode21" parent="LaserGrid/Vertical" instance=ExtResource("2_nurni")]
+position = Vector2(16, 144)
+
+[node name="Horizontal" type="Node2D" parent="LaserGrid"]
+
+[node name="GridNode22" parent="LaserGrid/Horizontal" instance=ExtResource("2_nurni")]
+position = Vector2(48, 16)
+
+[node name="GridNode23" parent="LaserGrid/Horizontal" instance=ExtResource("2_nurni")]
+position = Vector2(80, 16)
+
+[node name="GridNode24" parent="LaserGrid/Horizontal" instance=ExtResource("2_nurni")]
+position = Vector2(112, 16)
+
+[node name="GridNode25" parent="LaserGrid/Horizontal" instance=ExtResource("2_nurni")]
+position = Vector2(144, 16)
+
+[node name="GridNode" parent="LaserGrid" instance=ExtResource("2_nurni")]
+position = Vector2(16, 16)
+metadata/_edit_lock_ = true
+
+[node name="HorizontalCannon" parent="LaserGrid" instance=ExtResource("3_0eoee")]
+unique_name_in_owner = true
+position = Vector2(48, 16)
+rotation = 1.5708
+
+[node name="VerticalCannon" parent="LaserGrid" instance=ExtResource("3_0eoee")]
+unique_name_in_owner = true
+position = Vector2(16, 48)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ti022")

@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cyakrrsw1v13s"]
+
+[ext_resource type="Texture2D" uid="uid://x8ty22fqyjgj" path="res://assets/cannon.png" id="1_kkhvy"]
+[ext_resource type="Script" path="res://src/cannon.gd" id="1_omtr5"]
+[ext_resource type="Texture2D" uid="uid://b0wxva66omje2" path="res://assets/laser.png" id="3_to834"]
+[ext_resource type="Script" path="res://src/laser.gd" id="4_fcevc"]
+
+[node name="Cannon" type="Node2D"]
+script = ExtResource("1_omtr5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.211765, 0.52549, 0.560784, 1)
+texture_filter = 1
+texture = ExtResource("1_kkhvy")
+
+[node name="Laser" type="Sprite2D" parent="."]
+modulate = Color(0.854902, 0.94902, 0.913725, 1)
+show_behind_parent = true
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(8.33333, -2)
+scale = Vector2(0.127778, 1)
+texture = ExtResource("3_to834")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 60, 5)
+script = ExtResource("4_fcevc")

@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmj8xcjncq6ag"]
+
+[ext_resource type="Script" path="res://src/grid_node.gd" id="1_bo888"]
+[ext_resource type="Texture2D" uid="uid://c38x00pmikske" path="res://assets/grid.png" id="1_cqasf"]
+[ext_resource type="Texture2D" uid="uid://b0wxva66omje2" path="res://assets/laser.png" id="3_7ecdn"]
+[ext_resource type="Script" path="res://src/laser.gd" id="4_yqmew"]
+
+[sub_resource type="Gradient" id="Gradient_lr6yv"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wkavt"]
+gradient = SubResource("Gradient_lr6yv")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_unpym"]
+size = Vector2(32, 32)
+
+[node name="GridNode" type="Node2D"]
+script = ExtResource("1_bo888")
+
+[node name="Background" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(0.5, 0.5)
+texture = SubResource("GradientTexture2D_wkavt")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.12549, 0.211765, 0.443137, 1)
+texture_filter = 1
+texture = ExtResource("1_cqasf")
+metadata/_edit_lock_ = true
+
+[node name="LaserLeft" type="Sprite2D" parent="."]
+modulate = Color(0.854902, 0.94902, 0.913725, 0)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-16, -2)
+texture = ExtResource("3_7ecdn")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 5)
+script = ExtResource("4_yqmew")
+metadata/_edit_lock_ = true
+
+[node name="LaserRight" type="Sprite2D" parent="."]
+modulate = Color(0.854902, 0.94902, 0.913725, 0)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(0, -2)
+texture = ExtResource("3_7ecdn")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 5)
+script = ExtResource("4_yqmew")
+metadata/_edit_lock_ = true
+
+[node name="LaserUp" type="Sprite2D" parent="."]
+modulate = Color(0.854902, 0.94902, 0.913725, 0)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(2, -16)
+rotation = 1.5708
+texture = ExtResource("3_7ecdn")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 5)
+script = ExtResource("4_yqmew")
+metadata/_edit_lock_ = true
+
+[node name="LaserDown" type="Sprite2D" parent="."]
+modulate = Color(0.854902, 0.94902, 0.913725, 0)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(2, 0)
+rotation = 1.5708
+texture = ExtResource("3_7ecdn")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 5)
+script = ExtResource("4_yqmew")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 0
+monitoring = false
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_unpym")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
