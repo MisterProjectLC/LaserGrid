@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cy0ul30qsva7c"]
+[gd_scene load_steps=16 format=3 uid="uid://cy0ul30qsva7c"]
 
 [ext_resource type="PackedScene" uid="uid://dmj8xcjncq6ag" path="res://src/grid_node.tscn" id="1_2xlrb"]
 [ext_resource type="Script" path="res://src/main.gd" id="1_3fl0m"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://6nxk50na5ywp" path="res://src/health_sprite.tscn" id="8_1lb67"]
 [ext_resource type="Script" path="res://src/deflector_indicator.gd" id="9_u201p"]
 [ext_resource type="PackedScene" uid="uid://cwdftjbjm8kwi" path="res://src/deflector_sprite.tscn" id="10_bw08q"]
+[ext_resource type="FontFile" uid="uid://b6f4adajh4kdb" path="res://assets/AldotheApache.ttf" id="11_jwihq"]
+[ext_resource type="Script" path="res://src/PauseMenu.gd" id="12_mpw5c"]
 
 [sub_resource type="Gradient" id="Gradient_4orih"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -36,7 +38,7 @@ adjustment_enabled = true
 [node name="Main" type="Node2D"]
 scale = Vector2(3, 3)
 script = ExtResource("1_3fl0m")
-TIME_TO_DETONATE = 10.0
+TIME_TO_DETONATE = 15.0
 
 [node name="Background" type="Sprite2D" parent="."]
 modulate = Color(0.109804, 0.14902, 0.219608, 1)
@@ -55,10 +57,10 @@ position = Vector2(48, 48)
 
 [node name="GridNode2" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
 position = Vector2(80, 48)
+reflect_right = false
 
 [node name="GridNode5" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
 position = Vector2(112, 48)
-reflect_right = false
 
 [node name="GridNode6" parent="Grid/Row" instance=ExtResource("1_2xlrb")]
 position = Vector2(144, 48)
@@ -69,6 +71,7 @@ position = Vector2(0, 32)
 
 [node name="GridNode" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
 position = Vector2(48, 48)
+reflect_down = false
 
 [node name="GridNode2" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
 position = Vector2(80, 48)
@@ -79,6 +82,7 @@ reflect_right = false
 
 [node name="GridNode6" parent="Grid/Row2" instance=ExtResource("1_2xlrb")]
 position = Vector2(144, 48)
+reflect_down = false
 reflect_right = false
 
 [node name="Row3" type="Node2D" parent="Grid"]
@@ -86,7 +90,6 @@ position = Vector2(0, 64)
 
 [node name="GridNode" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
 position = Vector2(48, 48)
-reflect_down = false
 
 [node name="GridNode2" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
 position = Vector2(80, 48)
@@ -99,7 +102,6 @@ reflect_right = false
 
 [node name="GridNode6" parent="Grid/Row3" instance=ExtResource("1_2xlrb")]
 position = Vector2(144, 48)
-reflect_down = false
 reflect_right = false
 
 [node name="Row4" type="Node2D" parent="Grid"]
@@ -112,11 +114,11 @@ reflect_down = false
 [node name="GridNode2" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
 position = Vector2(80, 48)
 reflect_down = false
+reflect_right = false
 
 [node name="GridNode5" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
 position = Vector2(112, 48)
 reflect_down = false
-reflect_right = false
 
 [node name="GridNode6" parent="Grid/Row4" instance=ExtResource("1_2xlrb")]
 position = Vector2(144, 48)
@@ -195,3 +197,54 @@ position = Vector2(0, 72)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ti022")
+
+[node name="WaveCounter" type="Label" parent="."]
+texture_filter = 1
+offset_left = 2.0
+offset_top = 184.0
+offset_right = 61.0
+offset_bottom = 201.0
+theme_override_fonts/font = ExtResource("11_jwihq")
+theme_override_font_sizes/font_size = 16
+text = "Wave: 10"
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="Explainer" type="Label" parent="."]
+texture_filter = 1
+offset_left = 59.3333
+offset_top = 165.667
+offset_right = 213.333
+offset_bottom = 199.667
+theme_override_fonts/font = ExtResource("11_jwihq")
+theme_override_font_sizes/font_size = 16
+text = "WASD TO MOVE THE CANNONS"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="PauseMenu" type="Sprite2D" parent="."]
+process_mode = 3
+visible = false
+self_modulate = Color(0, 0, 0, 0.443137)
+position = Vector2(109, 102)
+scale = Vector2(3.40625, 3.15625)
+texture = SubResource("GradientTexture2D_ls6cn")
+script = ExtResource("12_mpw5c")
+metadata/_edit_lock_ = true
+
+[node name="Paused" type="Label" parent="PauseMenu"]
+texture_filter = 1
+offset_left = -31.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+theme_override_fonts/font = ExtResource("11_jwihq")
+theme_override_font_sizes/font_size = 15
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[connection signal="explain" from="Grid" to="." method="explain"]
+[connection signal="wave_advanced" from="Grid" to="." method="_on_grid_wave_advanced"]

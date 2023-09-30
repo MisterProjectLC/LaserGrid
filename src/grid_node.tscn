@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://dmj8xcjncq6ag"]
+[gd_scene load_steps=12 format=3 uid="uid://dmj8xcjncq6ag"]
 
 [ext_resource type="Script" path="res://src/grid_node.gd" id="1_bo888"]
 [ext_resource type="Texture2D" uid="uid://c38x00pmikske" path="res://assets/grid.png" id="1_cqasf"]
 [ext_resource type="Texture2D" uid="uid://dhxc42s50hw5v" path="res://assets/target.png" id="2_cwdul"]
 [ext_resource type="Texture2D" uid="uid://b0wxva66omje2" path="res://assets/laser.png" id="3_7ecdn"]
+[ext_resource type="Texture2D" uid="uid://h4vkdgn5jhue" path="res://assets/fortified_target.png" id="3_owmnd"]
+[ext_resource type="Texture2D" uid="uid://cby5m3ce8fjuu" path="res://assets/deflection_direction.png" id="3_sip0k"]
+[ext_resource type="Texture2D" uid="uid://bvoip2y8yf2fi" path="res://assets/target_quick.png" id="3_u3wa2"]
 [ext_resource type="Script" path="res://src/laser.gd" id="4_yqmew"]
 
 [sub_resource type="Gradient" id="Gradient_lr6yv"]
@@ -17,6 +20,9 @@ size = Vector2(32, 32)
 
 [node name="GridNode" type="Node2D"]
 script = ExtResource("1_bo888")
+target_sprite = ExtResource("2_cwdul")
+quick_sprite = ExtResource("3_u3wa2")
+fortified_sprite = ExtResource("3_owmnd")
 
 [node name="Background" type="Sprite2D" parent="."]
 visible = false
@@ -32,6 +38,14 @@ texture_filter = 1
 position = Vector2(4.76837e-07, 4.76837e-07)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cwdul")
+metadata/_edit_lock_ = true
+
+[node name="DeflectionDirection" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(4.76837e-07, 4.76837e-07)
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_sip0k")
 metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

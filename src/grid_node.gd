@@ -13,6 +13,10 @@ signal target_neutralized(node : GridNode)
 @export var neighbor_right : GridNode
 @export var neighbor_down : GridNode
 
+@export var target_sprite : Texture
+@export var quick_sprite : Texture
+@export var fortified_sprite : Texture
+
 @onready var lasers = [$LaserLeft, $LaserUp, $LaserRight, $LaserDown]
 @onready var neighbors = [neighbor_left, neighbor_up, neighbor_right, neighbor_down]
 
@@ -21,17 +25,35 @@ var targeted = false
 var blocked = false
 var reflecting = false
 
+var fortified = false
+var quick = false
+
+var x = 0
+var y = 0
+
 @onready var Background = $Background
 @onready var Target = $Target
+@onready var Direction = $DeflectionDirection
 
 var tween = null
 
-var time_to_detonate = 6.0
+const TIME_TO_DETONATE = 12.0
+const QUICK_TIME_TO_DETONATE = 6.0
 const BLINK_COUNT = 6
 
 func _ready():
 	$Sprite2D.modulate = Palletes.GRID_COLOR
 	Target.modulate = Palletes.GRID_TARGET_COLOR
+	Direction.modulate = Palletes.GRID_DEFLECT_COLOR
+	if !reflect_down and reflect_right:
+		Direction.rotation_degrees = 0
+	elif reflect_down and reflect_right:
+		Direction.rotation_degrees = 90
+	elif reflect_down and !reflect_right:
+		Direction.rotation_degrees = 180
+	elif !reflect_down and !reflect_right:
+		Direction.rotation_degrees = 270
+	
 
 func setup_neighbors():
 	neighbors = [neighbor_left, neighbor_up, neighbor_right, neighbor_down]
@@ -41,8 +63,18 @@ func _process(_delta):
 	hit_this_frame = false
 
 
+func set_fortified(f):
+	fortified = f
+	Target.texture = fortified_sprite if fortified else target_sprite
+
+func set_quick(q):
+	quick = q
+	Target.texture = quick_sprite if quick else target_sprite
+
+
 func set_blocked(_blocked):
 	blocked = _blocked
+	Direction.visible = !blocked
 	Background.visible = _blocked
 	Background.modulate = Palletes.GRID_BLOCKED_COLOR
 
@@ -50,10 +82,17 @@ func set_blocked(_blocked):
 func set_targeted(_targeted):
 	set_reflecting(false)
 	targeted = _targeted
-	Target.visible = targeted
+	Direction.visible = !targeted
+	
+	if !targeted:
+		set_fortified(false)
+		set_quick(false)
+	Target.visible = _targeted
+	
 	Background.visible = targeted
 	Background.modulate = Palletes.GRID_TARGET_BG_COLOR
 	
+	var time_to_detonate = TIME_TO_DETONATE if !quick else QUICK_TIME_TO_DETONATE
 	if targeted:
 		tween = create_tween()
 		for i in range(1, BLINK_COUNT+1):
@@ -82,7 +121,7 @@ func set_reflecting(_reflecting):
 	reflecting = _reflecting
 	Background.visible = _reflecting
 	if reflecting:
-		Background.modulate = Palletes.GRID_DEFLECT_COLOR
+		Background.modulate = Palletes.GRID_DEFLECT_BG_COLOR
 
 
 func activate_from_left():
@@ -151,3 +190,4 @@ func _on_area_2d_input_event(_viewport, event, _shape_idx):
 
 func is_tagged():
 	return targeted or blocked
+

@@ -23,5 +23,9 @@ func receive_input():
 		CannonController.activate()
 
 
-func start_wave():
-	GridController.start_wave()
+func _on_grid_wave_advanced(wave):
+	$WaveCounter.text = "Wave: " + str(wave)
+
+
+func explain(text):
+	$Explainer.text = text
