@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cy0ul30qsva7c"]
+[gd_scene load_steps=14 format=3 uid="uid://cy0ul30qsva7c"]
 
 [ext_resource type="PackedScene" uid="uid://dmj8xcjncq6ag" path="res://src/grid_node.tscn" id="1_2xlrb"]
 [ext_resource type="Script" path="res://src/main.gd" id="1_3fl0m"]
@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://suytwhf2ncwx" path="res://src/laser_grid_node.tscn" id="2_nurni"]
 [ext_resource type="Script" path="res://src/cannon_control.gd" id="2_vryu0"]
 [ext_resource type="PackedScene" uid="uid://cyakrrsw1v13s" path="res://src/cannon.tscn" id="3_0eoee"]
+[ext_resource type="Script" path="res://src/health_indicator.gd" id="7_y07x2"]
+[ext_resource type="PackedScene" uid="uid://6nxk50na5ywp" path="res://src/health_sprite.tscn" id="8_1lb67"]
+[ext_resource type="Script" path="res://src/deflector_indicator.gd" id="9_u201p"]
+[ext_resource type="PackedScene" uid="uid://cwdftjbjm8kwi" path="res://src/deflector_sprite.tscn" id="10_bw08q"]
 
 [sub_resource type="Gradient" id="Gradient_4orih"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -164,3 +168,32 @@ position = Vector2(16, 48)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ti022")
+
+[node name="Health" type="Node2D" parent="."]
+position = Vector2(10.3333, 172.333)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("7_y07x2")
+
+[node name="HealthSprite" parent="Health" instance=ExtResource("8_1lb67")]
+
+[node name="HealthSprite2" parent="Health" instance=ExtResource("8_1lb67")]
+position = Vector2(36, 0)
+
+[node name="HealthSprite3" parent="Health" instance=ExtResource("8_1lb67")]
+position = Vector2(73.3333, 0)
+
+[node name="Deflectors" type="Node2D" parent="."]
+position = Vector2(173.667, 13.3333)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("9_u201p")
+
+[node name="DeflectorSprite" parent="Deflectors" instance=ExtResource("10_bw08q")]
+
+[node name="DeflectorSprite2" parent="Deflectors" instance=ExtResource("10_bw08q")]
+position = Vector2(-0.666656, 36.6667)
+
+[node name="DeflectorSprite3" parent="Deflectors" instance=ExtResource("10_bw08q")]
+position = Vector2(0, 72)
+
+[node name="DeflectorSprite4" parent="Deflectors" instance=ExtResource("10_bw08q")]
+position = Vector2(-0.666656, 108.667)

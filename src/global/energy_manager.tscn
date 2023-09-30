@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://gtot1sgl08tf"]
+
+[ext_resource type="Script" path="res://src/global/energy_manager.gd" id="1_xs3bb"]
+
+[node name="EnergyManager" type="Node"]
+script = ExtResource("1_xs3bb")

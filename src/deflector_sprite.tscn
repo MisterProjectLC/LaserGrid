@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwdftjbjm8kwi"]
+
+[ext_resource type="Texture2D" uid="uid://bfk4xwhabdfmt" path="res://assets/deflector.png" id="1_xfrew"]
+[ext_resource type="Script" path="res://src/deflector_sprite.gd" id="2_m0nby"]
+
+[node name="DeflectorSprite" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_xfrew")
+script = ExtResource("2_m0nby")
