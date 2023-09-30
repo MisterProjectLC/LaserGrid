@@ -94,22 +94,26 @@ func set_targeted(_targeted):
 	
 	var time_to_detonate = TIME_TO_DETONATE if !quick else QUICK_TIME_TO_DETONATE
 	if targeted:
+		if tween:
+			tween.kill()
 		tween = create_tween()
 		for i in range(1, BLINK_COUNT+1):
 			tween.tween_callback(_set_target_visible.bind(false)).set_delay(time_to_detonate/pow(2, i))
 			tween.tween_callback(_set_target_visible.bind(true)).set_delay(0.15)
 		tween.tween_callback(_detonate)
+	elif tween:
+		tween.kill()
 
 func _set_target_visible(t):
 	Target.visible = t
 
 func _detonate():
-	set_targeted(false)
 	detonated.emit(self)
+	set_targeted(false)
 
 
 func set_reflecting(_reflecting):
-	if targeted:
+	if is_tagged():
 		return
 	
 	if !_reflecting:

@@ -194,6 +194,9 @@ func spawn_random_target(quick = false, fortified = false):
 		var rand_y = (randi() % 4)
 		if (rand_x == 0 and rand_y == 0) or (rand_x == 3 and rand_y == 3):
 			continue
+		var square = get_square(rand_x, rand_y)
+		if square.is_tagged():
+			continue
 		return spawn_target(rand_x, rand_y, quick, fortified)
 
 func spawn_centered_target(quick = false, fortified = false):
