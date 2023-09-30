@@ -34,8 +34,6 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cwdul")
 metadata/_edit_lock_ = true
 
-[node name="TargetTimer" type="Timer" parent="Target"]
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.12549, 0.211765, 0.443137, 1)
 texture_filter = 1
@@ -100,5 +98,4 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_unpym")
 
-[connection signal="timeout" from="Target/TargetTimer" to="." method="_on_target_timer_timeout"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

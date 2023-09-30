@@ -14,12 +14,12 @@ texture_filter = 1
 texture = ExtResource("1_kkhvy")
 
 [node name="Laser" type="Sprite2D" parent="."]
-modulate = Color(0.854902, 0.94902, 0.913725, 1)
+modulate = Color(0.854902, 0.94902, 0.913725, 0)
 show_behind_parent = true
 texture_filter = 1
 texture_repeat = 2
-position = Vector2(8.33333, -2)
-scale = Vector2(0.127778, 1)
+position = Vector2(-7, -2)
+scale = Vector2(0.383334, 1)
 texture = ExtResource("3_to834")
 centered = false
 region_enabled = true

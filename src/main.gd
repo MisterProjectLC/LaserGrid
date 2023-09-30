@@ -1,12 +1,10 @@
 extends Node2D
 class_name Main
 
-enum WAVE_TYPES {SINGLE, BLOCKER, DOUBLEBLOCKER, DOUBLETARGET}
-
 @onready var GridController = $Grid
 @onready var CannonController = $LaserGrid
 
-const TIME_TO_DETONATE = 6.0
+@export var TIME_TO_DETONATE = 6.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,7 +25,3 @@ func receive_input():
 
 func start_wave():
 	GridController.start_wave()
-
-
-func _on_wave_timer_timeout():
-	start_wave()

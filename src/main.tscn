@@ -36,6 +36,7 @@ adjustment_enabled = true
 [node name="Main" type="Node2D"]
 scale = Vector2(3, 3)
 script = ExtResource("1_3fl0m")
+TIME_TO_DETONATE = 10.0
 
 [node name="Background" type="Sprite2D" parent="."]
 modulate = Color(0.109804, 0.14902, 0.219608, 1)
@@ -194,9 +195,3 @@ position = Vector2(0, 72)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ti022")
-
-[node name="WaveTimer" type="Timer" parent="."]
-wait_time = 15.0
-autostart = true
-
-[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]

@@ -26,6 +26,7 @@ var reflecting = false
 
 var tween = null
 
+var time_to_detonate = 6.0
 const BLINK_COUNT = 6
 
 func _ready():
@@ -41,6 +42,7 @@ func _process(_delta):
 
 
 func set_blocked(_blocked):
+	blocked = _blocked
 	Background.visible = _blocked
 	Background.modulate = Palletes.GRID_BLOCKED_COLOR
 
@@ -55,7 +57,7 @@ func set_targeted(_targeted):
 	if targeted:
 		tween = create_tween()
 		for i in range(1, BLINK_COUNT+1):
-			tween.tween_callback(_set_target_visible.bind(false)).set_delay(Main.TIME_TO_DETONATE/pow(2, i))
+			tween.tween_callback(_set_target_visible.bind(false)).set_delay(time_to_detonate/pow(2, i))
 			tween.tween_callback(_set_target_visible.bind(true)).set_delay(0.15)
 		tween.tween_callback(_detonate)
 
@@ -98,6 +100,9 @@ func activate_from_down():
 
 func activate_from_directions(original_dir, reflected_bool, reflected_dir_true, 
 		reflected_dir_false, non_reflected_dir):
+	if blocked:
+		return
+	
 	lasers[original_dir].activate()
 	if reflecting:
 		if reflected_bool:
@@ -144,6 +149,5 @@ func _on_area_2d_input_event(_viewport, event, _shape_idx):
 		set_reflecting(!reflecting)
 
 
-
-func _on_target_timer_timeout():
-	pass # Replace with function body.
+func is_tagged():
+	return targeted or blocked
