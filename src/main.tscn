@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cy0ul30qsva7c"]
+[gd_scene load_steps=33 format=3 uid="uid://cy0ul30qsva7c"]
 
 [ext_resource type="PackedScene" uid="uid://dmj8xcjncq6ag" path="res://src/grid_node.tscn" id="1_2xlrb"]
 [ext_resource type="Script" path="res://src/main.gd" id="1_3fl0m"]
@@ -12,6 +12,18 @@
 [ext_resource type="PackedScene" uid="uid://cwdftjbjm8kwi" path="res://src/deflector_sprite.tscn" id="10_bw08q"]
 [ext_resource type="FontFile" uid="uid://b6f4adajh4kdb" path="res://assets/AldotheApache.ttf" id="11_jwihq"]
 [ext_resource type="Script" path="res://src/PauseMenu.gd" id="12_mpw5c"]
+[ext_resource type="AudioStream" uid="uid://cuhsomlyk3ilc" path="res://assets/sfx/laser.mp3" id="13_4qi6a"]
+[ext_resource type="Shader" path="res://src/shaders/game_over.gdshader" id="13_ler4i"]
+[ext_resource type="Script" path="res://src/title.gd" id="15_r7xih"]
+[ext_resource type="Texture2D" uid="uid://dx4wyhjt78cti" path="res://assets/title_laser.png" id="16_8p3dc"]
+[ext_resource type="Texture2D" uid="uid://g5qmw4ebcu66" path="res://assets/bolt.png" id="16_bukq5"]
+[ext_resource type="Texture2D" uid="uid://br3jridpy4vft" path="res://assets/title_grid.png" id="17_q727w"]
+[ext_resource type="Script" path="res://src/music_manager.gd" id="19_qv6iv"]
+[ext_resource type="AudioStream" uid="uid://bsup2lkiex1q7" path="res://assets/bgm/Intro.mp3" id="20_s4ppg"]
+[ext_resource type="AudioStream" uid="uid://bgpgqodb4yirh" path="res://assets/bgm/Advance1.mp3" id="21_r0d1w"]
+[ext_resource type="AudioStream" uid="uid://2mo3wcfh2s11" path="res://assets/bgm/Advance2.mp3" id="22_5olkq"]
+[ext_resource type="AudioStream" uid="uid://bqx2jchbrx380" path="res://assets/bgm/Advance3.mp3" id="23_n1eqr"]
+[ext_resource type="AudioStream" uid="uid://ceuaybo6arh8k" path="res://assets/bgm/Outro.mp3" id="24_5d1y5"]
 
 [sub_resource type="Gradient" id="Gradient_4orih"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -39,6 +51,142 @@ adjustment_enabled = true
 gradient = SubResource("Gradient_4orih")
 width = 225
 height = 200
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qc3hu"]
+shader = ExtResource("13_ler4i")
+
+[sub_resource type="Animation" id="Animation_s5h66"]
+resource_name = "Intro"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title/TitleBG:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(3.2, 3.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 400, 150), Rect2(0, 0, 0, 150)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Title/TitleBG2:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3.2, 3.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 400, 150), Rect2(0, 0, 0, 150)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title/BoltHider:region_rect")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.3, 1.6, 3.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 300, 100), Rect2(0, 0, 300, 0), Rect2(0, 0, 300, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title/BoltHider:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(3.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Title/Bolt:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(3.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_knuei"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title/BoltHider:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 300, 100)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Title/BoltHider:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title/Bolt:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title/TitleBG:region_rect")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 400, 150)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Title/TitleBG2:region_rect")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 400, 150)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l4ndl"]
+_data = {
+"Intro": SubResource("Animation_s5h66"),
+"RESET": SubResource("Animation_knuei")
+}
 
 [node name="Main" type="Node2D"]
 scale = Vector2(3, 3)
@@ -249,7 +397,123 @@ text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Title" type="Sprite2D" parent="."]
+process_mode = 3
+self_modulate = Color(0, 0, 0, 0.443137)
+material = SubResource("ShaderMaterial_qc3hu")
+position = Vector2(109, 102)
+script = ExtResource("15_r7xih")
+
+[node name="TitleBG" type="Sprite2D" parent="Title"]
+modulate = Color(0.109804, 0.14902, 0.219608, 1)
+position = Vector2(-208, -82.3333)
+rotation = -0.375173
+texture = SubResource("GradientTexture2D_idosx")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 150)
+
+[node name="TitleBG2" type="Sprite2D" parent="Title"]
+modulate = Color(0.109804, 0.14902, 0.219608, 1)
+position = Vector2(224, 67.3333)
+rotation = 2.79253
+texture = SubResource("GradientTexture2D_idosx")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 150)
+
+[node name="Bolt" type="Sprite2D" parent="Title"]
+modulate = Color(0.584314, 0.878431, 0.8, 1)
+texture_filter = 1
+position = Vector2(-13, -3.33333)
+texture = ExtResource("16_bukq5")
+
+[node name="BoltHider" type="Sprite2D" parent="Title"]
+modulate = Color(0.109804, 0.14902, 0.219608, 1)
+position = Vector2(-160.333, -52.3333)
+texture = SubResource("GradientTexture2D_idosx")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 100)
+
+[node name="Laser" type="Sprite2D" parent="Title"]
+texture_filter = 1
+position = Vector2(-160, -20)
+texture = ExtResource("16_8p3dc")
+
+[node name="Grid" type="Sprite2D" parent="Title"]
+texture_filter = 1
+position = Vector2(160, -10)
+texture = ExtResource("17_q727w")
+
+[node name="WaveResult" type="Label" parent="Title"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+offset_left = -80.0
+offset_top = 38.6667
+offset_right = 74.0
+offset_bottom = 72.6667
+theme_override_fonts/font = ExtResource("11_jwihq")
+theme_override_font_sizes/font_size = 16
+text = "WAVE 50"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Retry" type="Label" parent="Title"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+offset_left = -78.0
+offset_top = 66.6667
+offset_right = 76.0
+offset_bottom = 100.667
+theme_override_fonts/font = ExtResource("11_jwihq")
+theme_override_font_sizes/font_size = 16
+text = "Click to restart"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Title"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_l4ndl")
+}
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="LaserSFX" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("13_4qi6a")
+
+[node name="MusicManager" type="Node" parent="."]
+script = ExtResource("19_qv6iv")
+
+[node name="Intro" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("20_s4ppg")
+volume_db = -5.0
+autoplay = true
+
+[node name="Advance1" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("21_r0d1w")
+volume_db = -5.0
+
+[node name="Advance2" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("22_5olkq")
+volume_db = -5.0
+
+[node name="Advance3" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("23_n1eqr")
+volume_db = -5.0
+
+[node name="Outro" type="AudioStreamPlayer" parent="MusicManager"]
+process_mode = 3
+stream = ExtResource("24_5d1y5")
+
+[connection signal="end" from="Grid" to="." method="_on_grid_end"]
 [connection signal="explain" from="Grid" to="." method="explain"]
 [connection signal="failure" from="Grid" to="." method="_on_grid_failure"]
 [connection signal="success" from="Grid" to="." method="_on_grid_success"]
 [connection signal="wave_advanced" from="Grid" to="." method="_on_grid_wave_advanced"]
+[connection signal="finished" from="MusicManager/Intro" to="MusicManager" method="_on_finished"]

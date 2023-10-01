@@ -38,7 +38,7 @@ var y = 0
 var tween = null
 
 const TIME_TO_DETONATE = 12.0
-const QUICK_TIME_TO_DETONATE = 6.0
+const QUICK_TIME_TO_DETONATE = 4.0
 const BLINK_COUNT = 6
 
 func _ready():
@@ -94,8 +94,7 @@ func set_targeted(_targeted):
 	
 	var time_to_detonate = TIME_TO_DETONATE if !quick else QUICK_TIME_TO_DETONATE
 	if targeted:
-		if tween:
-			tween.kill()
+		if tween: tween.kill()
 		tween = create_tween()
 		for i in range(1, BLINK_COUNT+1):
 			tween.tween_callback(_set_target_visible.bind(false)).set_delay(time_to_detonate/pow(2, i))
@@ -108,8 +107,8 @@ func _set_target_visible(t):
 	Target.visible = t
 
 func _detonate():
-	detonated.emit(self)
 	set_targeted(false)
+	detonated.emit(self)
 
 
 func set_reflecting(_reflecting):
@@ -163,8 +162,7 @@ func activate_from_directions(original_dir, reflected_bool, reflected_dir_true,
 		neutralize()
 
 func neutralize():
-	if tween:
-		tween.kill()
+	if tween: tween.kill()
 	target_neutralized.emit(self)
 
 

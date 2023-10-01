@@ -3,11 +3,12 @@ class_name GridControl
 
 signal success()
 signal failure()
+signal end()
 signal wave_advanced(wave)
 signal explain(text)
 
 enum WAVE_TYPES {SINGLE, DOUBLE, TRIPLE, BLOCKER, DOUBLEBLOCKER, QUICKBLOCKER,
-	QUICKDOUBLEBLOCKER, QUICKDOUBLETARGET_BLOCKER,
+	QUICKDOUBLEBLOCKER, QUICKDOUBLETARGET_BLOCKER, FINAL,
 	DOUBLETARGET_BLOCKER, FORTIFIED, TUTORIAL_0, TUTORIAL_1, TUTORIAL_2, TUTORIAL_3}
 
 var wave_count = 0
@@ -69,7 +70,7 @@ func start_wave():
 func choose_wave():
 	if wave_count < 2:
 		if wave_count == 1:
-			explain.emit("Align both lasers to deactivate cells")
+			explain.emit("Hit both lasers to deactivate cells")
 		return start_specific_wave(WAVE_TYPES.TUTORIAL_0)
 	
 	if wave_count < 5:
@@ -79,7 +80,7 @@ func choose_wave():
 	
 	if wave_count < 10:
 		if wave_count == 5:
-			explain.emit("Blue cells deflect lasers")
+			explain.emit("Blue cells redirect lasers")
 			return start_specific_wave(WAVE_TYPES.TUTORIAL_1)
 		elif wave_count == 6:
 			return start_specific_wave(WAVE_TYPES.TUTORIAL_2)
@@ -87,6 +88,17 @@ func choose_wave():
 			return start_specific_wave(WAVE_TYPES.TUTORIAL_3)
 		explain.emit("Click on cells to toggle deflect")
 		return start_specific_wave(WAVE_TYPES.BLOCKER)
+	
+	if wave_count == 50:
+		end.emit()
+		return
+	
+	if wave_count == 49:
+		explain.emit("Last challenge!")
+		return start_specific_wave(WAVE_TYPES.FINAL)
+	
+	if wave_count == 31:
+		explain.emit("You're on your own now.")
 	
 	if wave_count == 31:
 		return start_specific_wave(WAVE_TYPES.FORTIFIED)
@@ -150,16 +162,16 @@ func start_specific_wave(wave_type):
 			spawn_blocker()
 		WAVE_TYPES.DOUBLETARGET_BLOCKER:
 			var target = spawn_random_target()
-			spawn_random_target()
 			spawn_hard_blocker(target)
+			spawn_random_target()
 		WAVE_TYPES.QUICKDOUBLETARGET_BLOCKER:
 			var target = spawn_random_target(true)
-			spawn_random_target(true)
 			spawn_hard_blocker(target)
+			spawn_random_target(true)
 		WAVE_TYPES.FORTIFIED:
 			fortified = true
 			spawn_centered_target(false, true)
-			spawn_random_target(false, true)
+			spawn_centered_target(false, true)
 		WAVE_TYPES.TUTORIAL_0:
 			spawn_target(0, 0)
 		WAVE_TYPES.TUTORIAL_1:
@@ -175,20 +187,25 @@ func start_specific_wave(wave_type):
 			get_square(0, 3).set_blocked(true)
 			get_square(1, 0).set_reflecting(true)
 			get_square(3, 3).set_reflecting(true)
+		WAVE_TYPES.FINAL:
+			fortified = true
+			spawn_target(0, 0, false, true)
+			spawn_target(2, 3, false, true)
+			spawn_target(3, 1, false, true)
 			
 
 
-func spawn_target(x, y, quick = false, fortified = false):
+func spawn_target(x, y, quick = false, _fortified = false):
 	targets_alive += 1
 	var square = get_square(x, y)
 	square.set_quick(quick)
-	if fortified:
-		square.set_fortified(fortified)
+	if _fortified:
+		square.set_fortified(_fortified)
 	square.set_targeted(true)
 	return square
 
 
-func spawn_random_target(quick = false, fortified = false):
+func spawn_random_target(quick = false, _fortified = false):
 	while true:
 		var rand_x = (randi() % 4)
 		var rand_y = (randi() % 4)
@@ -197,16 +214,16 @@ func spawn_random_target(quick = false, fortified = false):
 		var square = get_square(rand_x, rand_y)
 		if square.is_tagged():
 			continue
-		return spawn_target(rand_x, rand_y, quick, fortified)
+		return spawn_target(rand_x, rand_y, quick, _fortified)
 
-func spawn_centered_target(quick = false, fortified = false):
+func spawn_centered_target(quick = false, _fortified = false):
 	while true:
 		var rand_x = 1 + (randi() % 2)
 		var rand_y = 1 + (randi() % 2)
 		var square = get_square(rand_x, rand_y)
 		if square.is_tagged():
 			continue
-		return spawn_target(rand_x, rand_y, quick, fortified)
+		return spawn_target(rand_x, rand_y, quick, _fortified)
 
 
 func spawn_hard_blocker(target : GridNode):
@@ -250,10 +267,11 @@ func on_target_neutralized(node : GridNode):
 		success.emit()
 
 
-func on_target_detonated(node : GridNode):
+func on_target_detonated(_node : GridNode):
 	EnergyManager.take_damage()
-	start_wave()
 	failure.emit()
+	if EnergyManager.get_health() > 0:
+		start_wave()
 
 
 # HELPERS ------------------

@@ -11,6 +11,14 @@ signal reflectors_updated(reflectors)
 @onready var reflectors = MAX_REFLECTORS
 
 
+func reset():
+	health = MAX_HEALTH
+	reflectors = MAX_REFLECTORS
+
+func get_health():
+	return health
+
+
 func take_damage():
 	health -= 1
 	health_updated.emit(health)

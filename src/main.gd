@@ -4,6 +4,8 @@ class_name Main
 @onready var GridController = $Grid
 @onready var CannonController = $LaserGrid
 @onready var Background = $Background
+@onready var WaveResult = %WaveResult
+@onready var MusicManager = $MusicManager
 
 @export var TIME_TO_DETONATE = 6.0
 
@@ -22,10 +24,23 @@ func receive_input():
 		GridController.activate(CannonController.horizontal_pos, 
 				CannonController.vertical_pos)
 		CannonController.activate()
+		$LaserSFX.play()
 
 
 func _on_grid_wave_advanced(wave):
 	$WaveCounter.text = "Wave " + str(wave)
+	WaveResult.text = "Wave " + str(wave)
+	
+	match(wave):
+		5:
+			MusicManager.switch_song(1)
+		10:
+			MusicManager.switch_song(2)
+		40:
+			MusicManager.switch_song(3)
+		51:
+			MusicManager.play_outro()
+			WaveResult.text = "Congrats, you made it!"
 
 
 func explain(text):
@@ -33,12 +48,20 @@ func explain(text):
 
 
 func _on_grid_failure():
-	var tween = create_tween()
-	tween.tween_property(Background, 'modulate', Palletes.BACKGROUND_COLOR, 
+	if EnergyManager.get_health() > 0:
+		var tween = create_tween()
+		tween.tween_property(Background, 'modulate', Palletes.BACKGROUND_COLOR, 
 			0.5).from(Palletes.DAMAGE_BACKGROUND_COLOR)
+	else:
+		Background.modulate = Palletes.DAMAGE_BACKGROUND_COLOR
+		$Title.game_over()
 
 
 func _on_grid_success():
 	var tween = create_tween()
 	tween.tween_property($WaveCounter, 'modulate', Color.WHITE, 
 			0.75).from(Palletes.SUCCESS_BACKGROUND_COLOR)
+
+
+func _on_grid_end():
+	$Title.game_over()
