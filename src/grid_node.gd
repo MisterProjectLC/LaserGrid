@@ -37,8 +37,8 @@ var y = 0
 
 var tween = null
 
-const TIME_TO_DETONATE = 12.0
-const QUICK_TIME_TO_DETONATE = 4.0
+const TIME_TO_DETONATE = 9.0
+const QUICK_TIME_TO_DETONATE = 5.0
 const BLINK_COUNT = 6
 
 func _ready():
