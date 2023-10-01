@@ -154,12 +154,14 @@ func activate_from_directions(original_dir, reflected_bool, reflected_dir_true,
 	else:
 		send_laser(non_reflected_dir)
 	
-	if !targeted:
-		return
 	if !hit_this_frame:
 		hit_this_frame = true
 	else:
-		neutralize()
+		var color_tween = create_tween()
+		color_tween.tween_property($Sprite2D, 'modulate', Palletes.GRID_COLOR, 
+				0.5).from(Palletes.GRID_HIT_COLOR)
+		if targeted:
+			neutralize()
 
 func neutralize():
 	if tween: tween.kill()

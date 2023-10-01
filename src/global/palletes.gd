@@ -4,6 +4,7 @@ extends Node
 @export var SUCCESS_BACKGROUND_COLOR = Color.BLUE
 @export var DAMAGE_BACKGROUND_COLOR = Color.BLUE
 @export var GRID_COLOR = Color.BLUE
+@export var GRID_HIT_COLOR = Color.BLUE
 @export var GRID_CANNON_COLOR = Color.BLUE
 @export var GRID_DEFLECT_COLOR = Color.BLUE
 @export var GRID_DEFLECT_BG_COLOR = Color.BLUE
