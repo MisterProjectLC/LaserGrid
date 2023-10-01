@@ -13,6 +13,7 @@ class_name Main
 func _ready():
 	Background.modulate = Palletes.BACKGROUND_COLOR
 	GridController.start_wave()
+	%IntroSFX.play()
 
 
 func _process(_delta):
@@ -24,11 +25,13 @@ func receive_input():
 		GridController.activate(CannonController.horizontal_pos, 
 				CannonController.vertical_pos)
 		CannonController.activate()
-		$LaserSFX.play()
+		%LaserSFX.play()
 
 
 func _on_grid_wave_advanced(wave):
 	$WaveCounter.text = "Wave " + str(wave)
+	if wave > 1:
+		%AdvanceSFX.play()
 	WaveResult.text = "Wave " + str(wave)
 	
 	match(wave):
@@ -52,8 +55,10 @@ func _on_grid_failure():
 		var tween = create_tween()
 		tween.tween_property(Background, 'modulate', Palletes.BACKGROUND_COLOR, 
 			0.5).from(Palletes.DAMAGE_BACKGROUND_COLOR)
+		%DamageSFX.play()
 	else:
 		Background.modulate = Palletes.DAMAGE_BACKGROUND_COLOR
+		%GameOverSFX.play()
 		$Title.game_over()
 
 

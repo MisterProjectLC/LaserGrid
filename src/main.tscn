@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cy0ul30qsva7c"]
+[gd_scene load_steps=38 format=3 uid="uid://cy0ul30qsva7c"]
 
 [ext_resource type="PackedScene" uid="uid://dmj8xcjncq6ag" path="res://src/grid_node.tscn" id="1_2xlrb"]
 [ext_resource type="Script" path="res://src/main.gd" id="1_3fl0m"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://suytwhf2ncwx" path="res://src/laser_grid_node.tscn" id="2_nurni"]
 [ext_resource type="Script" path="res://src/cannon_control.gd" id="2_vryu0"]
 [ext_resource type="PackedScene" uid="uid://cyakrrsw1v13s" path="res://src/cannon.tscn" id="3_0eoee"]
+[ext_resource type="AudioStream" uid="uid://duwiephovykbk" path="res://assets/sfx/deactivate.mp3" id="4_d2fn5"]
 [ext_resource type="Script" path="res://src/health_indicator.gd" id="7_y07x2"]
 [ext_resource type="PackedScene" uid="uid://6nxk50na5ywp" path="res://src/health_sprite.tscn" id="8_1lb67"]
 [ext_resource type="Script" path="res://src/deflector_indicator.gd" id="9_u201p"]
@@ -18,10 +19,14 @@
 [ext_resource type="Texture2D" uid="uid://dx4wyhjt78cti" path="res://assets/title_laser.png" id="16_8p3dc"]
 [ext_resource type="Texture2D" uid="uid://g5qmw4ebcu66" path="res://assets/bolt.png" id="16_bukq5"]
 [ext_resource type="Texture2D" uid="uid://br3jridpy4vft" path="res://assets/title_grid.png" id="17_q727w"]
+[ext_resource type="AudioStream" uid="uid://cjsn5s4fii046" path="res://assets/sfx/advance.mp3" id="19_1rymg"]
 [ext_resource type="Script" path="res://src/music_manager.gd" id="19_qv6iv"]
 [ext_resource type="AudioStream" uid="uid://bsup2lkiex1q7" path="res://assets/bgm/Intro.mp3" id="20_s4ppg"]
+[ext_resource type="AudioStream" uid="uid://craksj40h43an" path="res://assets/sfx/damage.mp3" id="21_g7b4m"]
 [ext_resource type="AudioStream" uid="uid://bgpgqodb4yirh" path="res://assets/bgm/Advance1.mp3" id="21_r0d1w"]
 [ext_resource type="AudioStream" uid="uid://2mo3wcfh2s11" path="res://assets/bgm/Advance2.mp3" id="22_5olkq"]
+[ext_resource type="AudioStream" uid="uid://weocxbwo80eh" path="res://assets/sfx/game_over.mp3" id="22_7ogxi"]
+[ext_resource type="AudioStream" uid="uid://c4xw22h7mndly" path="res://assets/sfx/intro.mp3" id="23_74gle"]
 [ext_resource type="AudioStream" uid="uid://bqx2jchbrx380" path="res://assets/bgm/Advance3.mp3" id="23_n1eqr"]
 [ext_resource type="AudioStream" uid="uid://ceuaybo6arh8k" path="res://assets/bgm/Outro.mp3" id="24_5d1y5"]
 
@@ -278,6 +283,10 @@ position = Vector2(144, 48)
 reflect_down = false
 reflect_right = false
 
+[node name="NeutralizeSFX" type="AudioStreamPlayer" parent="Grid"]
+stream = ExtResource("4_d2fn5")
+volume_db = -12.0
+
 [node name="LaserGrid" type="Node2D" parent="."]
 script = ExtResource("2_vryu0")
 
@@ -485,7 +494,27 @@ libraries = {
 [node name="SFX" type="Node" parent="."]
 
 [node name="LaserSFX" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
 stream = ExtResource("13_4qi6a")
+
+[node name="AdvanceSFX" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("19_1rymg")
+volume_db = -5.0
+
+[node name="DamageSFX" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("21_g7b4m")
+
+[node name="GameOverSFX" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("22_7ogxi")
+
+[node name="IntroSFX" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("23_74gle")
 
 [node name="MusicManager" type="Node" parent="."]
 script = ExtResource("19_qv6iv")

@@ -260,6 +260,7 @@ func _process(_delta):
 
 func on_target_neutralized(node : GridNode):
 	targets_alive -= 1
+	$NeutralizeSFX.play()
 	if !fortified:
 		node.set_targeted(false)
 	if targets_alive <= 0:

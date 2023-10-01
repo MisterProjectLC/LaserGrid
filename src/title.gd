@@ -5,13 +5,15 @@ var tween = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	get_tree().paused = false
+	get_tree().paused = true
 	$AnimationPlayer.play("Intro")
 	await title_anim()
 	await get_tree().create_timer(1.6).timeout
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO).set_parallel(true)
 	tween.tween_property($Laser, 'position', Vector2(160, -20), 0.8)
 	tween.tween_property($Grid, 'position', Vector2(-160, 10), 0.8)
+	await get_tree().create_timer(0.5).timeout
+	get_tree().paused = false
 
 
 func game_over():

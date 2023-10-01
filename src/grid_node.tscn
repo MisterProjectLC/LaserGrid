@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dmj8xcjncq6ag"]
+[gd_scene load_steps=14 format=3 uid="uid://dmj8xcjncq6ag"]
 
 [ext_resource type="Script" path="res://src/grid_node.gd" id="1_bo888"]
 [ext_resource type="Texture2D" uid="uid://c38x00pmikske" path="res://assets/grid.png" id="1_cqasf"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cby5m3ce8fjuu" path="res://assets/deflection_direction.png" id="3_sip0k"]
 [ext_resource type="Texture2D" uid="uid://bvoip2y8yf2fi" path="res://assets/target_quick.png" id="3_u3wa2"]
 [ext_resource type="Script" path="res://src/laser.gd" id="4_yqmew"]
+[ext_resource type="AudioStream" uid="uid://bhuqlr8xfjyhp" path="res://assets/sfx/toggle.mp3" id="9_4ridm"]
+[ext_resource type="AudioStream" uid="uid://df465dkkrblum" path="res://assets/sfx/toggle_out.mp3" id="10_pynlf"]
 
 [sub_resource type="Gradient" id="Gradient_lr6yv"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -111,5 +113,11 @@ metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_unpym")
+
+[node name="ToggleSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_4ridm")
+
+[node name="ToggleOutSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_pynlf")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
