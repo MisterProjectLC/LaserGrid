@@ -123,6 +123,30 @@ tracks/4/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Title/TitleBG:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(3.9, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Title/TitleBG2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(3.9, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_knuei"]
 length = 0.001
@@ -186,6 +210,30 @@ tracks/4/keys = {
 "update": 0,
 "values": [Rect2(0, 0, 400, 150)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Title/TitleBG:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Title/TitleBG2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l4ndl"]
 _data = {
@@ -200,8 +248,8 @@ TIME_TO_DETONATE = 15.0
 
 [node name="Background" type="Sprite2D" parent="."]
 modulate = Color(0.109804, 0.14902, 0.219608, 1)
-position = Vector2(109, 102)
-scale = Vector2(3.40625, 3.15625)
+position = Vector2(205.333, 162.167)
+scale = Vector2(40.9271, 29.5365)
 texture = SubResource("GradientTexture2D_ls6cn")
 metadata/_edit_lock_ = true
 
